@@ -21,8 +21,6 @@ class RestfulRoutes
    * @param $app Application|ControllerCollection
    * @param $service string Controller service
    * @param $path string
-   * @param $before callable
-   * @param $after callable
    */
   public static function register($app, $service, $path)
   {
