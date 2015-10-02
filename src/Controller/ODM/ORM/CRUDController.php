@@ -3,7 +3,8 @@
 /**
  * Controller that implements all CRUD operations
  * Useful for quick prototyping
- * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
+ *
+ * @author Mikhail Yurasov <me@yurasov.me>
  */
 
 namespace MYurasov\RESTAPITools\Controller\ORM;

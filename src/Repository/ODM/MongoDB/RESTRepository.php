@@ -2,6 +2,7 @@
 
 /**
  * MongoDB ODM REST Repository
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 

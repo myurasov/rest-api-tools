@@ -2,7 +2,8 @@
 
 /**
  * Serialization trait for documnets
- * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
+ *
+ * @author Mikhail Yurasov <me@yurasov.me>
  */
 
 namespace MYurasov\RESTAPITools\ModelTraits;

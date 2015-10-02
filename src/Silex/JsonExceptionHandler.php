@@ -3,6 +3,7 @@
 /**
  * JSON Ecxeption handler
  * Handles Exceptions and converts them to JSON response
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 

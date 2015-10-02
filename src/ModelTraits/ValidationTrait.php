@@ -2,6 +2,7 @@
 
 /**
  * Support for validation
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 

@@ -2,6 +2,7 @@
 
 /**
  * Registers routes to RESTful actions on a controller
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 

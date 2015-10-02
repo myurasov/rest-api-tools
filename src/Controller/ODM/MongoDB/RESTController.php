@@ -2,7 +2,8 @@
 
 /**
  * REST Controller for Doctrine MongoDB ODM
- * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
+ *
+ * @author Mikhail Yurasov <me@yurasov.me>
  */
 
 namespace MYurasov\RESTAPITools\Controller\ODM\MongoDB;

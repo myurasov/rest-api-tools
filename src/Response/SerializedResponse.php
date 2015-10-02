@@ -2,6 +2,7 @@
 
 /**
  * Serialized rsponse
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 

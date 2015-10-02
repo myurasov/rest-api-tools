@@ -2,6 +2,7 @@
 
 /**
  * REST API actions
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 

@@ -2,7 +2,8 @@
 
 /**
  * ORM REST Repository
- * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
+ *
+ * @author Mikhail Yurasov <me@yurasov.me>
  */
 
 namespace MYurasov\RESTAPITools\ORM;

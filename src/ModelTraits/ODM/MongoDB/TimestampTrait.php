@@ -2,6 +2,7 @@
 
 /**
  * Support for createdAt, updatedAt
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 

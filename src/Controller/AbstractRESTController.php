@@ -2,6 +2,7 @@
 
 /**
  * REST API controller
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 
