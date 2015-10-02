@@ -1,0 +1,41 @@
+{
+  "name": "myurasov/rest-api-tools",
+  "description": "REST API Tools",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mikhail Yurasov",
+      "email": "me@yurasov.me"
+    }
+  ],
+
+  "minimum-stability": "stable",
+
+  "require": {
+    "symfony/http-foundation": "~2.7",
+    "symfony/http-kernel": "~2.7",
+    "symfony/property-access": "~2.7",
+    "symfony/validator": "~2.7",
+    "doctrine/common": "~2.0",
+    "jms/serializer": "~1.0",
+    "php": ">=5.6"
+  },
+
+  "require-dev":  {
+    "doctrine/mongodb-odm": "~1.0",
+    "doctrine/orm": "~2.5",
+    "silex/silex": "~1.0"
+  },
+
+  "suggest": {
+    "silex/silex": "For using the Silex utils",
+    "doctrine/orm": "For ORM tools",
+    "doctrine/mongodb-odm": "For MongoDB ODM tools"
+  },
+
+  "autoload": {
+    "psr-4": {
+      "MYurasov\\RESTAPITools": "src/"
+    }
+  }
+}
