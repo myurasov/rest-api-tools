@@ -8,7 +8,7 @@
 namespace MYurasov\RESTAPITools\ODM;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use MYurasov\RESTAPITools\RESTRepositoryInterface;
+use MYurasov\RESTAPITools\Repository\RESTRepositoryInterface;
 
 class RESTRepository extends DocumentRepository implements RESTRepositoryInterface
 {
