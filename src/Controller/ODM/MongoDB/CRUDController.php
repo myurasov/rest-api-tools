@@ -6,7 +6,7 @@
  * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
  */
 
-namespace MYurasov\RESTAPITools\ODM;
+namespace MYurasov\RESTAPITools\Controller\ODM\MongoDB;
 
 use Symfony\Component\HttpFoundation\Request;
 

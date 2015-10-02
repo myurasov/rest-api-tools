@@ -5,11 +5,12 @@
  * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
  */
 
-namespace MYurasov\RESTAPITools\ORM;
+namespace MYurasov\RESTAPITools\Controller\ORM;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use MYurasov\RESTAPITools\Controller\AbstractRESTController;
+use MYurasov\RESTAPITools\ORM\RESTRepository;
 
 class RESTController extends AbstractRESTController
 {

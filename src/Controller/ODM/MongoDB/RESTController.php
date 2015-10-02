@@ -5,11 +5,12 @@
  * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
  */
 
-namespace MYurasov\RESTAPITools\ODM;
+namespace MYurasov\RESTAPITools\Controller\ODM\MongoDB;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use MYurasov\RESTAPITools\Controller\AbstractRESTController;
+use MYurasov\RESTAPITools\Repository\ODM\MongoDB\RESTRepository;
 
 class RESTController extends AbstractRESTController
 {

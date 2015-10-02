@@ -2,10 +2,10 @@
 
 /**
  * MongoDB ODM REST Repository
- * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
+ * @author Mikhail Yurasov <me@yurasov.me>
  */
 
-namespace MYurasov\RESTAPITools\ODM;
+namespace MYurasov\RESTAPITools\Repository\ODM\MongoDB;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
 use MYurasov\RESTAPITools\Repository\RESTRepositoryInterface;

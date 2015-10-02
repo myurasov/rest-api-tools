@@ -6,7 +6,7 @@
  * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
  */
 
-namespace MYurasov\RESTAPITools\ORM;
+namespace MYurasov\RESTAPITools\Controller\ORM;
 
 use Symfony\Component\HttpFoundation\Request;
 
