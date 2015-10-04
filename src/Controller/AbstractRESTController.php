@@ -288,7 +288,7 @@ abstract class AbstractRESTController extends RESTControllerActions
   }
 
   /**
-   * Update resource
+   * Update resource from array
    *
    * @param $resource object
    * @param $input array
