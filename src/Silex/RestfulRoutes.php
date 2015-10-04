@@ -8,8 +8,8 @@
 
 namespace MYurasov\RESTAPITools\Silex;
 
+use Silex\Application;
 use Silex\ControllerCollection;
-use Symfony\Component\Console\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -28,7 +28,14 @@ class RestfulRoutes
     static::registerRESTfulActions($app, $service, $path);
   }
 
-  public static function registerRESTfulActions(Application $app, $service, $path)
+  /**
+   * Register RESTful actions
+   *
+   * @param $app Application|ControllerCollection
+   * @param $service string Controller service
+   * @param $path string
+   */
+  public static function registerRESTfulActions($app, $service, $path)
   {
     // collection
     $app->get($path, $service . ':getCollectionAction');
@@ -43,6 +50,13 @@ class RestfulRoutes
     $app->delete($path . '/{id}', $service . ':deleteResourceAction');
   }
 
+  /**
+   * Register actions
+   *
+   * @param $app Application|ControllerCollection
+   * @param $service string Controller service
+   * @param $path string
+   */
   public static function registerActions($app, $service, $path)
   {
 
