@@ -296,9 +296,38 @@ abstract class AbstractRESTController extends RESTControllerActions
   protected function update(&$resource, array $input)
   {
     if (is_array($input)) {
-      foreach ($input as $path => $value) {
+      $this->walkInputArray($input, function ($path, $value) use (&$resource) {
         $this->updateField($resource, $path, $value);
+      });
+    }
+  }
+
+  /**
+   * Walks through input array
+   *
+   * @param        $array
+   * @param        $callback callable function($path, $value)
+   * @param null   $iterator
+   * @param string $prefix
+   */
+  private function walkInputArray($array, $callback, $iterator = null, $prefix = '')
+  {
+    if (!$iterator) {
+      $iterator = new \RecursiveArrayIterator($array);
+    }
+
+    while ($iterator->valid()) {
+      if ($iterator->hasChildren()) {
+        $this->walkInputArray(null, $callback, $iterator->getChildren(), $prefix . '.' . $iterator->key());
+      } else {
+        call_user_func(
+          $callback,
+          ltrim($prefix . '.' . $iterator->key(), '.'),
+          $iterator->current()
+        );
       }
+
+      $iterator->next();
     }
   }
 
