@@ -14,11 +14,13 @@ interface RESTRepositoryInterface extends ObjectRepository
 {
   /**
    * @param $skip int
+   * @return $this
    */
   public function setSkip($skip);
 
   /**
    * @param $limit int
+   * @return $this
    */
   public function setLimit($limit);
 

@@ -40,10 +40,12 @@ class RESTRepository extends DocumentRepository implements RESTRepositoryInterfa
   public function setLimit($limit)
   {
     $this->limit = $limit;
+    return $this;
   }
 
   public function setSkip($skip)
   {
     $this->skip = $skip;
+    return $this;
   }
 }

@@ -329,6 +329,7 @@ abstract class AbstractRESTController extends RESTControllerActions
   public function setOm(ObjectManager $om)
   {
     $this->om = $om;
+    return $this;
   }
 
   public function getRepository()
@@ -339,11 +340,13 @@ abstract class AbstractRESTController extends RESTControllerActions
   public function setRepository(RESTRepositoryInterface $repository)
   {
     $this->repository = $repository;
+    return $this;
   }
 
   public function setResponse(SerializedResponse $response)
   {
     $this->response = $response;
+    return $this;
   }
 
   public function getResponse()
@@ -354,6 +357,7 @@ abstract class AbstractRESTController extends RESTControllerActions
   public function setModificationDateMethodName($modificationDateMethodName)
   {
     $this->modificationDateMethodName = $modificationDateMethodName;
+    return $this;
   }
 
   public function getModificationDateMethodName()
@@ -364,6 +368,7 @@ abstract class AbstractRESTController extends RESTControllerActions
   public function setMaxLimit($maxLimit)
   {
     $this->maxLimit = $maxLimit;
+    return $this;
   }
 
   public function getMaxLimit()
@@ -374,6 +379,7 @@ abstract class AbstractRESTController extends RESTControllerActions
   public function setDefaultLimit($defaultLimit)
   {
     $this->defaultLimit = $defaultLimit;
+    return $this;
   }
 
   public function getDefaultLimit()
