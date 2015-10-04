@@ -75,6 +75,16 @@ class SerializedResponse extends Response
     $this->setJsonOptions($this->jsonOptions | $jsonOptions);
   }
 
+  /**
+   * Enable JSON options
+   *
+   * @param int $jsonOptions
+   */
+  public function disableJsonOptions($jsonOptions)
+  {
+    $this->setJsonOptions($this->jsonOptions ^ $jsonOptions);
+  }
+
   //<editor-fold desc="accessors">
 
   public function setCacheDir($cacheDir)
