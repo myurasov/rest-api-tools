@@ -28,6 +28,7 @@ class RESTController extends AbstractRESTController
   public function setOm(ObjectManager $om)
   {
     $this->dm = $this->om = $om;
+    return $this;
   }
 
   protected function deleteAll()
