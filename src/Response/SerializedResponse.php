@@ -70,6 +70,7 @@ class SerializedResponse extends Response
   public function setCacheDir($cacheDir)
   {
     $this->cacheDir = $cacheDir;
+    return $this;
   }
 
   public function getCacheDir()
@@ -85,6 +86,7 @@ class SerializedResponse extends Response
   public function setJsonOptions($jsonOptions)
   {
     $this->jsonOptions = $jsonOptions;
+    return $this;
   }
 
   public function getFormat()
@@ -95,6 +97,7 @@ class SerializedResponse extends Response
   public function setFormat($format)
   {
     $this->format = $format;
+    return $this;
   }
 
   public function getData()
@@ -105,6 +108,7 @@ class SerializedResponse extends Response
   public function setSerializationVisitor($serializationVisitor)
   {
     $this->serializationVisitor = $serializationVisitor;
+    return $this;
   }
 
   public function getSerializationVisitor()
@@ -115,6 +119,7 @@ class SerializedResponse extends Response
   public function setDebug($debug)
   {
     $this->debug = $debug;
+    return $this;
   }
 
   public function getDebug()
