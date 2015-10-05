@@ -77,7 +77,7 @@ class RestfulRoutes
     // action handler
     $actionHandler = function(Request $request, $action) use ($app, $serviceName) {
 
-      $action = $action . 'Action';
+      $action .= 'Action';
 
       if (is_callable(array($app[$serviceName], $action))) {
 
