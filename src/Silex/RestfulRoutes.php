@@ -19,65 +19,79 @@ class RestfulRoutes
    * Registers routes to RESTful actions on a controller defined as a service
    *
    * @param $app Application|ControllerCollection
-   * @param $service string Controller service
-   * @param $path string
+   * @param $serviceName string Controller service
+   * @param $basePath string
    */
-  public static function register($app, $service, $path)
+  public static function register($app, $serviceName, $basePath)
   {
-    static::registerActions($app, $service, $path);
-    static::registerRESTfulActions($app, $service, $path);
+    static::registerActions($app, $serviceName, $basePath);
+    static::registerRESTfulActions($app, $serviceName, $basePath);
+  }
+
+  private static function normalizePath($path)
+  {
+    if (substr($path, -1) === '/') {
+      return substr($path, 0, strlen($path) - 1);
+    } else {
+      return $path;
+    }
   }
 
   /**
    * Register RESTful actions
    *
    * @param $app Application|ControllerCollection
-   * @param $service string Controller service
-   * @param $path string
+   * @param $serviceName string Controller service
+   * @param $basePath string
    */
-  public static function registerRESTfulActions($app, $service, $path)
+  public static function registerRESTfulActions($app, $serviceName, $basePath)
   {
+    // remove trailing slash
+    $basePath = self::normalizePath($basePath);
+
     // collection
-    $app->get($path, $service . ':getCollectionAction');
-    $app->put($path, $service . ':replaceCollectionAction');
-    $app->post($path, $service . ':createResourceAction');
-    $app->delete($path, $service . ':deleteCollectionAction');
+    $app->get($basePath, $serviceName . ':getCollectionAction');
+    $app->put($basePath, $serviceName . ':replaceCollectionAction');
+    $app->post($basePath, $serviceName . ':createResourceAction');
+    $app->delete($basePath, $serviceName . ':deleteCollectionAction');
 
     // resource
-    $app->get($path . '/{id}', $service . ':getResourceAction');
-    $app->put($path . '/{id}', $service . ':updateOrCreateResourceAction');
-    $app->match($path . '/{id}', $service . ':updateResourceAction')->method('PATCH');
-    $app->delete($path . '/{id}', $service . ':deleteResourceAction');
+    $app->get($basePath . '/{id}', $serviceName . ':getResourceAction');
+    $app->put($basePath . '/{id}', $serviceName . ':updateOrCreateResourceAction');
+    $app->match($basePath . '/{id}', $serviceName . ':updateResourceAction')->method('PATCH');
+    $app->delete($basePath . '/{id}', $serviceName . ':deleteResourceAction');
   }
 
   /**
    * Register actions
    *
    * @param $app Application|ControllerCollection
-   * @param $service string Controller service
-   * @param $path string
+   * @param $serviceName string Controller service
+   * @param $basePath string
    */
-  public static function registerActions($app, $service, $path)
+  public static function registerActions($app, $serviceName, $basePath)
   {
+    // remove trailing slash
+    $basePath = self::normalizePath($basePath);
 
     // action handler
-    $actionHandler = function(Request $request, $action) use ($app, $service) {
+    $actionHandler = function(Request $request, $action) use ($app, $serviceName) {
 
       $action = $action . 'Action';
 
-      if (is_callable(array($app[$service], $action))) {
+      if (is_callable(array($app[$serviceName], $action))) {
 
         // call action
-        return call_user_func(array($app[$service], $action), $request, $app);
+        return call_user_func(array($app[$serviceName], $action), $request, $app);
 
       } else {
-        throw new NotFoundHttpException("Action $service:$action not found");
+        throw new NotFoundHttpException("Action $serviceName:$action not found");
       }
 
     };
 
     // actions
-    $app->match($path . '/{action}.action',  $actionHandler);
-    $app->match($path . '/{id}/{action}.action',  $actionHandler);
+    $app->match($basePath . '/{action}.action',  $actionHandler);
+    $app->match($basePath . '/{id}/{action}.action',  $actionHandler);
   }
 } 
