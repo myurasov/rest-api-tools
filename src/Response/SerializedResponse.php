@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Serialized rsponse
+ * Serialized response
  *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 
-namespace MYurasov\RESTAPITools;
+namespace MYurasov\RESTAPITools\Response;
 
 use JMS\Serializer\VisitorInterface;
 use Symfony\Component\HttpFoundation\Response;

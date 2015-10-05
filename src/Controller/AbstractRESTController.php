@@ -10,7 +10,7 @@ namespace MYurasov\RESTAPITools\Controller;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use MYurasov\RESTAPITools\Repository\RESTRepositoryInterface;
-use MYurasov\RESTAPITools\SerializedResponse;
+use MYurasov\RESTAPITools\Response\SerializedResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

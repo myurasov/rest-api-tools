@@ -8,7 +8,7 @@
 
 namespace MYurasov\RESTAPITools\Controller;
 
-use MYurasov\RESTAPITools\SerializedResponse;
+use MYurasov\RESTAPITools\Response\SerializedResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
