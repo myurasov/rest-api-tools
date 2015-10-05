@@ -32,6 +32,11 @@ class Serializer
    */
   private $serializationVisitor;
 
+  /**
+   * Create serializer
+   * 
+   * @throws \Exception
+   */
   private function createSerializer()
   {
     $sb = SerializerBuilder::create();
