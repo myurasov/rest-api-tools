@@ -9,6 +9,7 @@
 namespace MYurasov\RESTAPITools\Response;
 
 use JMS\Serializer\VisitorInterface;
+use MYurasov\RESTAPITools\Serializer;
 use Symfony\Component\HttpFoundation\Response;
 
 class SerializedResponse extends Response
