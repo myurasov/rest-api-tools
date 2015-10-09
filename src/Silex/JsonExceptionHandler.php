@@ -9,6 +9,7 @@
 
 namespace MYurasov\RESTAPITools\Silex;
 
+use MYurasov\RESTAPITools\Results\ErrorResult;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,10 +40,7 @@ class JsonExceptionHandler
           $response->setStatusCode(500);
         }
 
-        $response->setData(array(
-                             'error' => $e->getCode(),
-                             'message' => $e->getMessage()
-                           ));
+        $response->setData(new ErrorResult($e->getCode(), $e->getMessage()));
 
         return $response;
       }
