@@ -23,6 +23,11 @@ abstract class AbstractResult
     $this->message = $message;
   }
 
+  public function toArray()
+  {
+    return get_object_vars($this);
+  }
+
   public function getError()
   {
     return $this->error;
