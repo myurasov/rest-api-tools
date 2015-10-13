@@ -245,7 +245,7 @@ abstract class AbstractRESTController extends RESTControllerActions
     $resource = $this->getRepository()->find($id);
 
     if ($required && is_null($resource)) {
-      throw new NotFoundHttpException();
+      throw new NotFoundHttpException('Resource not found');
     }
 
     return $resource;
