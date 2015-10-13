@@ -48,11 +48,15 @@ class AuthorizationHandler implements ServiceProviderInterface
    * @param string $path
    * @return bool
    */
-  private function ignorePath($path)
+  private function ignorePath($path, $method)
   {
-    foreach ($this->app['authorization_handler.ignore_paths'] as $i => $regex)
+    foreach ($this->app['authorization_handler.ignore_paths'] as $i => $rule)
     {
-      if (preg_match($regex, $path)) {
+      $methods = substr($rule, 0, strpos($rule, ' '));
+      $regex = substr($rule, strlen($methods) + 1);
+      $methods = explode(',', $methods);
+
+      if (in_array($method, $methods, true) && preg_match($regex, $path)) {
         return true;
       }
     }
@@ -68,24 +72,31 @@ class AuthorizationHandler implements ServiceProviderInterface
     $this->app->before(
       function (Request $request) {
 
-        // path
         $path = $request->getPathInfo();
+        $method = $request->getMethod();
 
-        if (!$this->ignorePath($path)) {
+        if (!$this->ignorePath($path, $method)) {
 
-          // Authorization token
+          // authorization token
           $token = '';
 
           // look for Authorization header
 
-          // bearer Authorization header is stripped away by Symfony, so read it from the web server
-          $headers = getallheaders();
+          if (function_exists('apache_request_headers')) {
 
-          foreach ($headers as $name => $value) {
-            if (strcasecmp($name, 'authorization') === 0) {
-              $token = $value;
-              break;
+            // Apache
+
+            // bearer Authorization header is stripped away by Symfony, so read it from the web server
+            $headers = apache_request_headers();
+
+            if (isset($headers['authorization'])) {
+              $token = $headers['authorization'];
+            } else if (isset($headers['Authorization'])) {
+              $token = $headers['Authorization'];
             }
+
+          } else {
+            $token = $request->headers->get('authorization', '');
           }
 
           // look elsewhere in request fields
