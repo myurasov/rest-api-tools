@@ -31,23 +31,19 @@ class JsonExceptionHandler
           && 0 === strpos($request->headers->get('accept'),
                           'application/json')) {
 
+        $errorCode = $e->getCode();
         $response = new JsonResponse();
 
         if ($e instanceof HttpException) {
           $response->setStatusCode($e->getStatusCode());
           $response->headers->add($e->getHeaders());
-        } else {
-          $response->setStatusCode(500);
-        }
 
-        // error code
-
-        $errorCode = $e->getCode();
-
-        if (!$errorCode) {
-          if (method_exists($e, 'getStatusCode')) {
+          if (!$errorCode) {
             $errorCode = 'HTTP/' . $e->getStatusCode();
           }
+
+        } else {
+          $response->setStatusCode(500);
         }
 
         $response->setData(new ErrorResult($errorCode, $e->getMessage()));
