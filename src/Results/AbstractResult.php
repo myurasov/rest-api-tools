@@ -9,15 +9,15 @@ namespace MYurasov\RESTAPITools\Results;
 
 abstract class AbstractResult
 {
-  public $error = 0;
-  public $message = 0;
+  public $error = null;
+  public $message = '';
   public $success = false;
 
   /**
    * @param int $error
    * @param string $message
    */
-  public function __construct($error = 0, $message = '')
+  public function __construct($error = null, $message = '')
   {
     $this->error = $error;
     $this->message = $message;
