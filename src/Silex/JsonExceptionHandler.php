@@ -40,7 +40,17 @@ class JsonExceptionHandler
           $response->setStatusCode(500);
         }
 
-        $response->setData(new ErrorResult($e->getCode() ?: 'HTTP/' . $e->getStatusCode(), $e->getMessage()));
+        // error code
+
+        $errorCode = $e->getCode();
+
+        if (!$errorCode) {
+          if (method_exists($e, 'getStatusCode')) {
+            $errorCode = 'HTTP/' . $e->getStatusCode();
+          }
+        }
+
+        $response->setData(new ErrorResult($errorCode, $e->getMessage()));
 
         return $response;
       }
