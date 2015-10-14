@@ -12,6 +12,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use MYurasov\RESTAPITools\Repository\RESTRepositoryInterface;
 use MYurasov\RESTAPITools\Response\SerializedResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -115,13 +116,18 @@ abstract class AbstractRESTController extends RESTControllerActions
     return $this->response;
   }
 
-  public function updateResource(Request $request)
+  /**
+   * @param Request    $request
+   * @param null|array $allowedFields List of alowed paths, null of all are allowed
+   * @return SerializedResponse
+   */
+  public function updateResource(Request $request, $allowedFields = null)
   {
     // load existing resource
     $resource = $this->load($request->attributes->get('id'), true /* required */);
 
     // update with request
-    $this->update($resource, $request->request->all());
+    $this->update($resource, $request->request->all(), $allowedFields);
 
     // save
     $this->om->flush($resource);
@@ -292,11 +298,18 @@ abstract class AbstractRESTController extends RESTControllerActions
    *
    * @param $resource object
    * @param $input array
+   * @param $allowedFields null|array  List of alowed paths, null of all are allowed
    */
-  protected function update(&$resource, array $input)
+  protected function update(&$resource, array $input, $allowedFields = null)
   {
     if (is_array($input)) {
-      $this->walkInputArray($input, function ($path, $value) use (&$resource) {
+      $this->walkInputArray($input, function ($path, $value) use (&$resource, $allowedFields) {
+
+        // check if the path update is allowed
+        if (is_array($allowedFields) && !in_array($path, $allowedFields, true)) {
+          throw new AccessDeniedHttpException("Update of '$path' is not allowed'");
+        }
+
         $this->updateField($resource, $path, $value);
       });
     }
