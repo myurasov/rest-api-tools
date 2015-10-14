@@ -15,6 +15,15 @@ class TokensService
   private $tokenLifetime;
 
   /**
+   * Callback for determining if token is revoked
+   *
+   * function(string $token): bool
+   *
+   * @var null|callable
+   */
+  private $isTokenRevokedCallback;
+
+  /**
    * Generate token
    *
    * @param array $data
@@ -38,6 +47,13 @@ class TokensService
    */
   public function decodeToken($token, $sub = null)
   {
+    // check if token is revoked
+    if (is_callable($this->isTokenRevokedCallback)) {
+      if (call_user_func($this->isTokenRevokedCallback, $token)) {
+        throw new TokenValidationException('Token is revoked');
+      }
+    }
+
     $data = JWT::decode($token, $this->jwtSecret, array_keys(JWT::$supported_algs));
 
     if ($data->exp < time()) {
@@ -97,6 +113,21 @@ class TokensService
   public function setTokenLifetime($tokenLifetime)
   {
     $this->tokenLifetime = $tokenLifetime;
+    return $this;
+  }
+
+  public function getIsTokenRevokedCallback()
+  {
+    return $this->isTokenRevokedCallback;
+  }
+
+  /**
+   * @param mixed $isTokenRevokedCallback
+   * @return TokensService
+   */
+  public function setIsTokenRevokedCallback($isTokenRevokedCallback)
+  {
+    $this->isTokenRevokedCallback = $isTokenRevokedCallback;
     return $this;
   }
 
