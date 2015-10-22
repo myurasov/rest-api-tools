@@ -330,14 +330,21 @@ abstract class AbstractRESTController extends RESTControllerActions
     }
 
     while ($iterator->valid()) {
+
+      $key = $iterator->key();
+
       if ($iterator->hasChildren()) {
-        $this->walkInputArray(null, $callback, $iterator->getChildren(), $prefix . '.' . $iterator->key());
+
+        $this->walkInputArray(null, $callback, $iterator->getChildren(), $prefix . '.' . $key);
+
       } else {
+
         call_user_func(
           $callback,
-          ltrim($prefix . '.' . $iterator->key(), '.'),
+          ltrim($prefix . '.' . $key, '.'),
           $iterator->current()
         );
+
       }
 
       $iterator->next();
