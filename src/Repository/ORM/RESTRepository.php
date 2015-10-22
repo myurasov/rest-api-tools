@@ -2,7 +2,8 @@
 
 /**
  * ORM REST Repository
- * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
+ *
+ * @author Mikhail Yurasov <me@yurasov.me>
  */
 
 namespace MYurasov\RESTAPITools\ORM;
@@ -32,10 +33,12 @@ class RESTRepository extends EntityRepository implements RESTRepositoryInterface
   public function setLimit($limit)
   {
     $this->limit = $limit;
+    return $this;
   }
 
   public function setSkip($skip)
   {
     $this->skip = $skip;
+    return $this;
   }
 }

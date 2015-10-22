@@ -2,7 +2,7 @@
 
 /**
  * Serializer service
- *  * @author Mikhail Yurasov <me@yurasov.me>
+ * @author Mikhail Yurasov <me@yurasov.me>
  */
 
 namespace MYurasov\RESTAPITools;
@@ -32,6 +32,11 @@ class Serializer
    */
   private $serializationVisitor;
 
+  /**
+   * Create serializer
+   * 
+   * @throws \Exception
+   */
   private function createSerializer()
   {
     $sb = SerializerBuilder::create();

@@ -2,10 +2,11 @@
 
 /**
  * Serialization trait for documnets
- * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
+ *
+ * @author Mikhail Yurasov <me@yurasov.me>
  */
 
-namespace MYurasov\RESTAPITools;
+namespace MYurasov\RESTAPITools\ModelTraits;
 
 use Doctrine\Common\Collections\Collection;
 

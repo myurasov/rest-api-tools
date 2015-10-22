@@ -1,13 +1,15 @@
 <?php
 
 /**
- * Serialized rsponse
+ * Serialized response
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 
-namespace MYurasov\RESTAPITools;
+namespace MYurasov\RESTAPITools\Response;
 
 use JMS\Serializer\VisitorInterface;
+use MYurasov\RESTAPITools\Serializer;
 use Symfony\Component\HttpFoundation\Response;
 
 class SerializedResponse extends Response
@@ -64,11 +66,32 @@ class SerializedResponse extends Response
     $this->update();
   }
 
+  /**
+   * Enable JSON options
+   *
+   * @param int $jsonOptions
+   */
+  public function enableJsonOptions($jsonOptions)
+  {
+    $this->setJsonOptions($this->jsonOptions | $jsonOptions);
+  }
+
+  /**
+   * Enable JSON options
+   *
+   * @param int $jsonOptions
+   */
+  public function disableJsonOptions($jsonOptions)
+  {
+    $this->setJsonOptions($this->jsonOptions ^ $jsonOptions);
+  }
+
   //<editor-fold desc="accessors">
 
   public function setCacheDir($cacheDir)
   {
     $this->cacheDir = $cacheDir;
+    return $this;
   }
 
   public function getCacheDir()
@@ -84,6 +107,7 @@ class SerializedResponse extends Response
   public function setJsonOptions($jsonOptions)
   {
     $this->jsonOptions = $jsonOptions;
+    return $this;
   }
 
   public function getFormat()
@@ -94,6 +118,7 @@ class SerializedResponse extends Response
   public function setFormat($format)
   {
     $this->format = $format;
+    return $this;
   }
 
   public function getData()
@@ -104,6 +129,7 @@ class SerializedResponse extends Response
   public function setSerializationVisitor($serializationVisitor)
   {
     $this->serializationVisitor = $serializationVisitor;
+    return $this;
   }
 
   public function getSerializationVisitor()
@@ -114,6 +140,7 @@ class SerializedResponse extends Response
   public function setDebug($debug)
   {
     $this->debug = $debug;
+    return $this;
   }
 
   public function getDebug()

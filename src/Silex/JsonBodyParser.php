@@ -2,6 +2,7 @@
 
 /**
  * Json body parser
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 

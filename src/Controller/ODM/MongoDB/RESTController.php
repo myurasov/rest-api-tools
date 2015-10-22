@@ -2,14 +2,16 @@
 
 /**
  * REST Controller for Doctrine MongoDB ODM
- * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
+ *
+ * @author Mikhail Yurasov <me@yurasov.me>
  */
 
-namespace MYurasov\RESTAPITools\ODM;
+namespace MYurasov\RESTAPITools\Controller\ODM\MongoDB;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use MYurasov\RESTAPITools\Controller\AbstractRESTController;
+use MYurasov\RESTAPITools\Repository\ODM\MongoDB\RESTRepository;
 
 class RESTController extends AbstractRESTController
 {
@@ -26,6 +28,7 @@ class RESTController extends AbstractRESTController
   public function setOm(ObjectManager $om)
   {
     $this->dm = $this->om = $om;
+    return $this;
   }
 
   protected function deleteAll()

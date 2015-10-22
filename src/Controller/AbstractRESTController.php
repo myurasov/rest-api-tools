@@ -2,6 +2,7 @@
 
 /**
  * REST API controller
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 
@@ -9,8 +10,9 @@ namespace MYurasov\RESTAPITools\Controller;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use MYurasov\RESTAPITools\Repository\RESTRepositoryInterface;
-use MYurasov\RESTAPITools\SerializedResponse;
+use MYurasov\RESTAPITools\Response\SerializedResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\PropertyAccess\PropertyAccessor;
@@ -114,13 +116,18 @@ abstract class AbstractRESTController extends RESTControllerActions
     return $this->response;
   }
 
-  public function updateResource(Request $request)
+  /**
+   * @param Request    $request
+   * @param null|array $allowedFields List of alowed paths, null of all are allowed
+   * @return SerializedResponse
+   */
+  public function updateResource(Request $request, $allowedFields = null)
   {
     // load existing resource
     $resource = $this->load($request->attributes->get('id'), true /* required */);
 
     // update with request
-    $this->update($resource, $request->request->all());
+    $this->update($resource, $request->request->all(), $allowedFields);
 
     // save
     $this->om->flush($resource);
@@ -244,7 +251,7 @@ abstract class AbstractRESTController extends RESTControllerActions
     $resource = $this->getRepository()->find($id);
 
     if ($required && is_null($resource)) {
-      throw new NotFoundHttpException();
+      throw new NotFoundHttpException('Resource not found');
     }
 
     return $resource;
@@ -287,17 +294,60 @@ abstract class AbstractRESTController extends RESTControllerActions
   }
 
   /**
-   * Update resource
+   * Update resource from array
    *
    * @param $resource object
    * @param $input array
+   * @param $allowedFields null|array  List of alowed paths, null of all are allowed
    */
-  protected function update(&$resource, array $input)
+  protected function update(&$resource, array $input, $allowedFields = null)
   {
     if (is_array($input)) {
-      foreach ($input as $path => $value) {
+      $this->walkInputArray($input, function ($path, $value) use (&$resource, $allowedFields) {
+
+        // check if the path update is allowed
+        if (is_array($allowedFields) && !in_array($path, $allowedFields, true)) {
+          throw new AccessDeniedHttpException("Update of '$path' is not allowed'");
+        }
+
         $this->updateField($resource, $path, $value);
+      });
+    }
+  }
+
+  /**
+   * Walks through input array
+   *
+   * @param        $array
+   * @param        $callback callable function($path, $value)
+   * @param null   $iterator
+   * @param string $prefix
+   */
+  private function walkInputArray($array, $callback, $iterator = null, $prefix = '')
+  {
+    if (!$iterator) {
+      $iterator = new \RecursiveArrayIterator($array);
+    }
+
+    while ($iterator->valid()) {
+
+      $key = $iterator->key();
+
+      if ($iterator->hasChildren()) {
+
+        $this->walkInputArray(null, $callback, $iterator->getChildren(), $prefix . '.' . $key);
+
+      } else {
+
+        call_user_func(
+          $callback,
+          ltrim($prefix . '.' . $key, '.'),
+          $iterator->current()
+        );
+
       }
+
+      $iterator->next();
     }
   }
 
@@ -328,6 +378,7 @@ abstract class AbstractRESTController extends RESTControllerActions
   public function setOm(ObjectManager $om)
   {
     $this->om = $om;
+    return $this;
   }
 
   public function getRepository()
@@ -338,11 +389,13 @@ abstract class AbstractRESTController extends RESTControllerActions
   public function setRepository(RESTRepositoryInterface $repository)
   {
     $this->repository = $repository;
+    return $this;
   }
 
   public function setResponse(SerializedResponse $response)
   {
     $this->response = $response;
+    return $this;
   }
 
   public function getResponse()
@@ -353,6 +406,7 @@ abstract class AbstractRESTController extends RESTControllerActions
   public function setModificationDateMethodName($modificationDateMethodName)
   {
     $this->modificationDateMethodName = $modificationDateMethodName;
+    return $this;
   }
 
   public function getModificationDateMethodName()
@@ -363,6 +417,7 @@ abstract class AbstractRESTController extends RESTControllerActions
   public function setMaxLimit($maxLimit)
   {
     $this->maxLimit = $maxLimit;
+    return $this;
   }
 
   public function getMaxLimit()
@@ -373,6 +428,7 @@ abstract class AbstractRESTController extends RESTControllerActions
   public function setDefaultLimit($defaultLimit)
   {
     $this->defaultLimit = $defaultLimit;
+    return $this;
   }
 
   public function getDefaultLimit()

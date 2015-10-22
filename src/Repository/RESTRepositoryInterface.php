@@ -2,7 +2,8 @@
 
 /**
  * REST Repository interface
- * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
+ *
+ * @author Mikhail Yurasov <me@yurasov.me>
  */
 
 namespace MYurasov\RESTAPITools\Repository;
@@ -13,11 +14,13 @@ interface RESTRepositoryInterface extends ObjectRepository
 {
   /**
    * @param $skip int
+   * @return $this
    */
   public function setSkip($skip);
 
   /**
    * @param $limit int
+   * @return $this
    */
   public function setLimit($limit);
 

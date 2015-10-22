@@ -2,13 +2,14 @@
 
 /**
  * MongoDB ODM REST Repository
- * @copyright 2014 Mikhail Yurasov <me@yurasov.me>
+ *
+ * @author Mikhail Yurasov <me@yurasov.me>
  */
 
-namespace MYurasov\RESTAPITools\ODM;
+namespace MYurasov\RESTAPITools\Repository\ODM\MongoDB;
 
 use Doctrine\ODM\MongoDB\DocumentRepository;
-use MYurasov\RESTAPITools\RESTRepositoryInterface;
+use MYurasov\RESTAPITools\Repository\RESTRepositoryInterface;
 
 class RESTRepository extends DocumentRepository implements RESTRepositoryInterface
 {
@@ -39,10 +40,12 @@ class RESTRepository extends DocumentRepository implements RESTRepositoryInterfa
   public function setLimit($limit)
   {
     $this->limit = $limit;
+    return $this;
   }
 
   public function setSkip($skip)
   {
     $this->skip = $skip;
+    return $this;
   }
 }

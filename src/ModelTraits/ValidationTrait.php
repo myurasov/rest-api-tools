@@ -2,10 +2,11 @@
 
 /**
  * Support for validation
+ *
  * @author Mikhail Yurasov <me@yurasov.me>
  */
 
-namespace MYurasov\RESTAPITools;
+namespace MYurasov\RESTAPITools\ModelTraits;
 
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\ConstraintViolationList;
