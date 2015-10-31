@@ -9,16 +9,14 @@ namespace MYurasov\RESTAPITools\Model\ODM\MongoDB;
 use Doctrine\MongoDB\GridFSFile;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use JMS\Serializer\Annotation as Serializer;
+
 use MYurasov\RESTAPITools\ModelTraits\ODM\MongoDB\TimestampTrait;
 
 /**
- * @ODM\Document(collection="files")
  * @ODM\MappedSuperclass
- * @ODM\HasLifecycleCallbacks
- *
  * @Serializer\ExclusionPolicy("all")
  */
-class File
+abstract class File
 {
   use TimestampTrait;
 
@@ -71,13 +69,18 @@ class File
    */
   public function __construct($file = null)
   {
+    $this->file = $file;
+  }
+
+  protected function downloadRemoteFile()
+  {
     // download remote file
-    if (is_string($file) && preg_match('#^http(s)?://#', $file)) {
+    if (is_string($this->file) && preg_match('#^http(s)?://#', $this->file)) {
 
       // create temporary file
       $this->temporaryPath = tempnam(null, '');
 
-      $content = @file_get_contents($file);
+      $content = @file_get_contents($this->file);
 
       if (false == $content || !file_put_contents($this->temporaryPath, $content)) {
 
@@ -89,10 +92,8 @@ class File
       }
 
       $this->localFileIsTemporary = true;
-      $file = $this->temporaryPath;
+      $this->file = $this->temporaryPath;
     }
-
-    $this->file = $file;
   }
 
   /**
@@ -106,19 +107,10 @@ class File
     }
   }
 
-  /**
-   * @ODM\PreFlush
-   */
-  public function onPreFlush()
+  public function updateFileInfo()
   {
-    $this->updateFileInfo();
-  }
+    $this->downloadRemoteFile();
 
-  /**
-   * Update file information
-   */
-  protected function updateFileInfo()
-  {
     if (is_string($this->file)) {
 
       if (file_exists($this->file)) {
@@ -144,9 +136,7 @@ class File
         throw new \Exception('File does not exist');
       }
 
-    } else {
-
-      if ($this->file instanceof GridFSFile) {
+    } else if ($this->file instanceof GridFSFile) {
 
         // mime type
         if (is_null($this->mimeType)) {
@@ -164,8 +154,6 @@ class File
         if (is_null($this->md5)) {
           $this->md5 = md5($this->file->getBytes());
         }
-
-      }
 
     }
   }
@@ -272,6 +260,41 @@ class File
   {
     $this->temporary = $temporary;
     return $this;
+  }
+
+  /**
+   * @param mixed $mimeType
+   * @return File
+   */
+  public function setMimeType($mimeType)
+  {
+    $this->mimeType = $mimeType;
+    return $this;
+  }
+
+  /**
+   * @param mixed $length
+   * @return File
+   */
+  public function setLength($length)
+  {
+    $this->length = $length;
+    return $this;
+  }
+
+  /**
+   * @param mixed $md5
+   * @return File
+   */
+  public function setMd5($md5)
+  {
+    $this->md5 = $md5;
+    return $this;
+  }
+
+  public function getFile()
+  {
+    return $this->file;
   }
 
   // </editor-fold>
