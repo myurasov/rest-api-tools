@@ -4,7 +4,7 @@
  * File document
  */
 
-namespace MYurasov\Model\ODM\MongoDB;
+namespace MYurasov\RESTAPITools\Model\ODM\MongoDB;
 
 use Doctrine\MongoDB\GridFSFile;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
