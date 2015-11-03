@@ -209,7 +209,7 @@ abstract class File
 
   /**
    * @param string $temporaryPath
-   * @return File
+   * @return $this
    */
   public function setTemporaryPath($temporaryPath)
   {
@@ -224,7 +224,7 @@ abstract class File
 
   /**
    * @param boolean $localFileIsTemporary
-   * @return File
+   * @return $this
    */
   public function setLocalFileIsTemporary($localFileIsTemporary)
   {
@@ -239,7 +239,7 @@ abstract class File
 
   /**
    * @param mixed $id
-   * @return File
+   * @return $this
    */
   public function setId($id)
   {
@@ -254,7 +254,7 @@ abstract class File
 
   /**
    * @param mixed $temporary
-   * @return File
+   * @return $this
    */
   public function setTemporary($temporary)
   {
@@ -264,7 +264,7 @@ abstract class File
 
   /**
    * @param mixed $mimeType
-   * @return File
+   * @return $this
    */
   public function setMimeType($mimeType)
   {
@@ -274,7 +274,7 @@ abstract class File
 
   /**
    * @param mixed $length
-   * @return File
+   * @return $this
    */
   public function setLength($length)
   {
@@ -284,7 +284,7 @@ abstract class File
 
   /**
    * @param mixed $md5
-   * @return File
+   * @return $this
    */
   public function setMd5($md5)
   {
