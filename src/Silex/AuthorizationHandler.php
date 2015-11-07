@@ -121,6 +121,9 @@ class AuthorizationHandler implements ServiceProviderInterface
             // add token data to request
             $request->attributes->set('auth', $tokenData);
 
+            // restore Authorization header, wiped out by Symfony (why? dunno)
+            $request->headers->set('authorization', 'Bearer ' . $token);
+
           } else {
             // HTTP 401, force login prompt
             throw new UnauthorizedHttpException('Bearer', 'Authorization is required');
