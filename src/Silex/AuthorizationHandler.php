@@ -75,57 +75,60 @@ class AuthorizationHandler implements ServiceProviderInterface
         $path = $request->getPathInfo();
         $method = $request->getMethod();
 
-        if (!$this->ignorePath($path, $method)) {
+        // authorization token
+        $token = '';
 
-          // authorization token
-          $token = '';
+        // look for Authorization header
 
-          // look for Authorization header
+        if (function_exists('apache_request_headers')) {
 
-          if (function_exists('apache_request_headers')) {
+          // Apache
 
-            // Apache
+          // bearer Authorization header is stripped away by Symfony, so read it from the web server
+          $headers = apache_request_headers();
 
-            // bearer Authorization header is stripped away by Symfony, so read it from the web server
-            $headers = apache_request_headers();
-
-            if (isset($headers['authorization'])) {
-              $token = $headers['authorization'];
-            } else if (isset($headers['Authorization'])) {
-              $token = $headers['Authorization'];
-            }
-
-          } else {
-            $token = $request->headers->get('authorization', '');
+          if (isset($headers['authorization'])) {
+            $token = $headers['authorization'];
+          } else if (isset($headers['Authorization'])) {
+            $token = $headers['Authorization'];
           }
 
-          // look elsewhere in request fields
-
-          if (empty($token)) {
-            $token = $request->get('authorization');
-          }
-
-          if (!empty($token)) {
-
-            // remove "Bearer " prefix
-            if (substr($token, 0, 7) === 'Bearer ') {
-              $token = substr($token, 7);
-            }
-
-            /** @var TokensService $tokenService */
-            $tokenService = $this->app['authorization_handler.tokens_service'];
-
-            // decode JWT token, exception is thrown on invalid one
-            $tokenData = $tokenService->decodeToken($token, $this->app['authorization_handler.jwt_subject']);
-
-            // add token data to request
-            $request->attributes->set('auth', $tokenData);
-
-          } else {
-            // HTTP 401, force login prompt
-            throw new UnauthorizedHttpException('Bearer', 'Authorization is required');
-          }
+        } else {
+          $token = $request->headers->get('authorization', '');
         }
+
+        // look elsewhere in request fields
+
+        if (empty($token)) {
+          $token = $request->get('authorization');
+        }
+
+        if (!empty($token)) {
+
+          // remove "Bearer " prefix
+          if (substr($token, 0, 7) === 'Bearer ') {
+            $token = substr($token, 7);
+          }
+
+          /** @var TokensService $tokenService */
+          $tokenService = $this->app['authorization_handler.tokens_service'];
+
+          // decode JWT token, exception is thrown on invalid one
+          $tokenData = $tokenService->decodeToken($token, $this->app['authorization_handler.jwt_subject']);
+
+          // add token data to request
+          $request->attributes->set('auth', $tokenData);
+
+          // restore Authorization header, wiped out by Symfony (why? dunno)
+          $request->headers->set('authorization', 'Bearer ' . $token);
+
+        } else if (!$this->ignorePath($path, $method)) {
+
+          // HTTP 401, force login prompt
+          throw new UnauthorizedHttpException('Bearer', 'Authorization is required');
+
+        }
+
       }
     );
   }
